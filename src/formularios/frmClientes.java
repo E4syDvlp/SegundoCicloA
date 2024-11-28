@@ -5,7 +5,8 @@
 package formularios;
 
 import clases.clientes;
-
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author RYZEN 7
@@ -15,9 +16,16 @@ public class frmClientes extends javax.swing.JInternalFrame {
     /**
      * Creates new form frmClientes
      */
+      DefaultTableModel modelox;
     public frmClientes() {
         initComponents();
+      mtdPrepararTablaClientes();
     }
+private void mtdPrepararTablaClientes(){
+    String titulos []={"Identificación","Nombres", "Correo", "Dirección", "Celular"};
+modelox = new DefaultTableModel(null, titulos);
+tablaClientes.setModel(modelox);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,8 +59,10 @@ public class frmClientes extends javax.swing.JInternalFrame {
         txtSaldo = new javax.swing.JTextField();
         jSeparator10 = new javax.swing.JSeparator();
         btnRegistrar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtRespuestaClientes = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaClientes = new javax.swing.JTable();
+        btnEliminarFIila = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -180,7 +190,7 @@ public class frmClientes extends javax.swing.JInternalFrame {
         jSeparator10.setForeground(new java.awt.Color(0, 0, 0));
         getContentPane().add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 370, 270, 10));
 
-        btnRegistrar.setBackground(new java.awt.Color(255, 51, 51));
+        btnRegistrar.setBackground(new java.awt.Color(102, 255, 51));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -188,16 +198,46 @@ public class frmClientes extends javax.swing.JInternalFrame {
                 btnRegistrarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 530, 140, 40));
+        getContentPane().add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 390, 140, 40));
 
-        txtRespuestaClientes.setColumns(20);
-        txtRespuestaClientes.setRows(5);
-        jScrollPane1.setViewportView(txtRespuestaClientes);
+        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 410, 390, 170));
+            }
+        ));
+        jScrollPane2.setViewportView(tablaClientes);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 120, 530, 480));
+
+        btnEliminarFIila.setBackground(new java.awt.Color(255, 0, 51));
+        btnEliminarFIila.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        btnEliminarFIila.setText("Eliminar");
+        btnEliminarFIila.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarFIilaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEliminarFIila, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 500, 120, 40));
+
+        btnEditar.setBackground(new java.awt.Color(102, 153, 255));
+        btnEditar.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 130, 40));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
 
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
         // TODO add your handling code here:
@@ -227,13 +267,102 @@ public class frmClientes extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSaldoActionPerformed
 
+    private static boolean ga=false;
+
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
     clases.clientes obj = new clientes(Integer.parseInt(txtCedula.getText()), txtNombres.getText(), txtEmail.getText(), txtDireccion.getText(), Integer.parseInt(txtCelular.getText()), txtGenero.getText(), Integer.parseInt(txtSaldo.getText()));
-    txtRespuestaClientes.setText(obj.medDatos());
+    if(txtCedula.getText().length()>0){
+    if(txtNombres.getText().length()>0){
+    if(txtEmail.getText().length()>0){
+    if(txtDireccion.getText().length()>0){  
+    if(txtCelular.getText().length()>0){
+    if(txtGenero.getText().length()>0){   
+    if(txtSaldo.getText().length()>0){    
+    if (ga==false){
+        modelox= (DefaultTableModel) tablaClientes.getModel();
+String nuevFilaa[]={String.valueOf(obj.getCedulaRUC()), obj.getNombres(),obj.getCorreo(), obj.getDireccion(), String.valueOf(obj.getCelular()),obj.getGenero(), String.valueOf(obj.getSaldo())};
+    modelox.addRow(nuevFilaa);
+    mtdLimpiar();
+//txtRespuestaClientes.setText(obj.medDatos());
     }//GEN-LAST:event_btnRegistrarActionPerformed
+    if (ga==true){
+    int filasel=tablaClientes.getSelectedRow();
+    if (filasel==-1){
+        JOptionPane.showMessageDialog(null,"Seleccione una fila" );
+    }else{
+        tablaClientes.setValueAt(txtCedula.getText(), filasel, 0);
+        tablaClientes.setValueAt(txtNombres.getText(), filasel, 1);
+        tablaClientes.setValueAt(txtEmail.getText(), filasel, 2);
+        tablaClientes.setValueAt(txtDireccion.getText(), filasel, 3);
+        tablaClientes.setValueAt(txtCelular.getText(), filasel, 4);
+        tablaClientes.setValueAt(txtGenero.getText(), filasel, 5);
+        tablaClientes.setValueAt(txtSaldo.getText(), filasel, 6);
+        ga=false;
+        mtdLimpiar();
+    }
+}
+    }else{
+    JOptionPane.showMessageDialog(null, "Por favor dijite el saldo","Sistema de Canchas",JOptionPane.INFORMATION_MESSAGE);
+    }
+    }else{
+    JOptionPane.showMessageDialog(null, "Por favor dijite el género","Sistema de Canchas",JOptionPane.INFORMATION_MESSAGE);    
+    }
+    }else{
+    JOptionPane.showMessageDialog(null, "Por favor dijite el número de celular","Sistema de Canchas",JOptionPane.INFORMATION_MESSAGE);    
+    }
+    }else{
+    JOptionPane.showMessageDialog(null, "Por favor dijite la dirección","Sistema de Canchas",JOptionPane.INFORMATION_MESSAGE);    
+    }
+    }else{
+    JOptionPane.showMessageDialog(null, "Por favor dijite el email","Sistema de Canchas",JOptionPane.INFORMATION_MESSAGE);    
+    }
+    }else{
+    JOptionPane.showMessageDialog(null, "Por favor dijite los nombres","Sistema de Canchas",JOptionPane.INFORMATION_MESSAGE);    
+    }
+    }else{
+    JOptionPane.showMessageDialog(null, "Por favor dijite la cédula","Sistema de Canchas",JOptionPane.INFORMATION_MESSAGE);    
+    }
+    }
+    private void mtdLimpiar(){
+    txtCedula.setText("");
+    txtNombres.setText("");
+    txtEmail.setText("");
+    txtDireccion.setText("");
+    txtCelular.setText("");
+    txtGenero.setText("");
+    txtSaldo.setText("");
+    
+}
+    private void btnEliminarFIilaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarFIilaActionPerformed
+        int filasel = tablaClientes.getSelectedRow();
+        if (filasel==-1){
+            JOptionPane.showMessageDialog(null, "No hay ninguna fila seleccionada, para continuar debe seleccionar una");
+        }else{
+            modelox=(DefaultTableModel) tablaClientes.getModel();
+            modelox.removeRow(filasel);
+        }
+    }//GEN-LAST:event_btnEliminarFIilaActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+               int filasel = tablaClientes.getSelectedRow();
+        if (filasel==-1){
+            JOptionPane.showMessageDialog(null, "Por favor seleccione una fila!");
+        }else{
+            txtCedula.setText(tablaClientes.getValueAt(filasel, 0).toString());
+            txtNombres.setText(tablaClientes.getValueAt(filasel, 1).toString());
+            txtEmail.setText(tablaClientes.getValueAt(filasel, 2).toString());
+            txtDireccion.setText(tablaClientes.getValueAt(filasel, 3).toString());
+            txtCelular.setText(tablaClientes.getValueAt(filasel, 4).toString());
+            txtGenero.setText(tablaClientes.getValueAt(filasel, 5).toString());
+            txtSaldo.setText(tablaClientes.getValueAt(filasel, 6).toString());
+            ga=true;
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminarFIila;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -243,7 +372,7 @@ public class frmClientes extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator5;
@@ -251,13 +380,13 @@ public class frmClientes extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JTable tablaClientes;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCelular;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtGenero;
     private javax.swing.JTextField txtNombres;
-    private javax.swing.JTextArea txtRespuestaClientes;
     private javax.swing.JTextField txtSaldo;
     // End of variables declaration//GEN-END:variables
 }
